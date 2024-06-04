@@ -4,7 +4,7 @@ import "./App.css";
 function App() {
   const [trainerNaam, setTrainerNaam] = useState("Trainer");
   const [clienten, setClienten] = useState([
-    { clientNaam: "Client", trainingsDagen: ["", "", "", "", ""] },
+    { clientNaam: "", trainingsDagen: ["", "", "", "", ""] },
   ]);
 
   const trainingMaanden = [
@@ -49,7 +49,7 @@ function App() {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-96">
       <h2>{trainerNaam}</h2>
       <div className="bg-slate-200 p-2">
         {trainingMaanden.map((maand) => (
@@ -63,19 +63,23 @@ function App() {
         ))}
       </div>
       {clienten.map((client, clientNummer) => (
-        <>
+        <div className="flex bg-slate-500 flex-wrap">
           <input
             key={clientNummer}
             className="border-2 rounded-md m-2 p-1 text-center"
             value={client.clientNaam}
+            placeholder="Client"
             onChange={(e) => veranderClientNaam(e, clientNummer)}
           ></input>
-          <div className="flex">
+          <div className="flex flex-wrap">
             {client.trainingsDagen.map((trainingsDag, dagNummer) => (
               <input
                 key={dagNummer}
-                className="w-10 border-2 rounded-md m-2 p-1 text-center"
+                type="number"
+                className="w-10 border-2 rounded-md m-2 text-center invalid:bg-red-300"
                 value={trainingsDag}
+                min="1"
+                max="31"
                 onChange={(e) => veranderDag(e, clientNummer, dagNummer)}
               ></input>
             ))}
@@ -87,19 +91,20 @@ function App() {
               +
             </button>
           </div>
-        </>
+        </div>
       ))}
       <button
         onClick={() =>
           setClienten((prevClienten) => [
             ...prevClienten,
-            { clientNaam: "Client", trainingsDagen: ["", "", "", "", ""] },
+            { clientNaam: "", trainingsDagen: ["", "", "", "", ""] },
           ])
         }
-        className="flex m-auto bg-slate-50 rounded-md p-2 hover:bg-slate-100"
+        className="flex m-auto bg-slate-50 rounded-md p-1 hover:bg-slate-100"
       >
         Add client
       </button>
+      <button className="bg-green-300 flex m-auto p-2 rounded-lg mt-2">Submit</button>
     </div>
   );
 }
